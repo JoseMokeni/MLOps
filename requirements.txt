@@ -1,0 +1,10 @@
+click
+matplotlib
+mlflow
+numpy
+pandas
+scikit_learn
+seaborn
+statsmodels
+zenml
+ipykernel

@@ -1,0 +1,62 @@
+version: "3.8"
+
+services:
+  predictor:
+    image: josemokeni/price-predictor:latest
+    ports:
+      - "80:8501"
+      - "8000:8000"
+    volumes:
+      - mlruns:/app/mlruns
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 1
+        delay: 10s
+        order: start-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+      labels:
+        - "com.centurylinklabs.watchtower.enable=true"
+    networks:
+      - pred-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8501"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  watchtower:
+    image: containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --interval 30 --cleanup --label-enable
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+      restart_policy:
+        condition: on-failure
+    environment:
+      - WATCHTOWER_CLEANUP=true
+      - WATCHTOWER_LABEL_ENABLE=true
+      - WATCHTOWER_POLL_INTERVAL=30
+    networks:
+      - pred-network
+
+volumes:
+  mlruns:
+    driver: local
+
+networks:
+  pred-network:
+    driver: overlay

@@ -12,15 +12,55 @@ An ML-powered house price prediction system using MLflow for model tracking and 
 
 ## 🚀 Quick Start
 
-### Using Docker (Recommended)
+### Using Docker Compose (Development)
 
+1. Start the services:
 ```bash
 docker compose up --build
+```
+
+2. Stop the services:
+```bash
+docker compose down
 ```
 
 The application will be available at:
 - Web UI: http://localhost:80
 - MLflow UI: http://localhost:8000
+
+### Using Docker Stack (Production)
+
+1. Initialize Docker Swarm:
+```bash
+docker swarm init
+```
+
+2. Deploy the stack:
+```bash
+docker stack deploy -c docker-stack.yml predictor
+```
+
+3. Monitor the services:
+```bash
+docker stack services predictor
+docker service logs predictor_predictor
+```
+
+4. Scale the service (optional):
+```bash
+docker service scale predictor_predictor=3
+```
+
+5. Remove the stack when done:
+```bash
+docker stack rm predictor
+```
+
+The application will be available at:
+- Web UI: http://localhost:80
+- MLflow UI: http://localhost:8000
+
+Note: Choose Docker Compose for development/testing and Docker Stack for production deployment. Stack provides better scalability and automatic updates through Watchtower.
 
 ### Manual Setup
 

@@ -1,26 +1,13 @@
 services:
-  mlflow:
+  app:
     build:
       context: .
-      dockerfile: Dockerfile.mlflow
+      dockerfile: Dockerfile
     ports:
       - "8000:8000"
+      - "80:8501"
     volumes:
       - ./mlruns:/app/mlruns
-    networks:
-      - pred-network
-    tty: true
-
-  streamlit:
-    build:
-      context: .
-      dockerfile: Dockerfile.streamlit
-    ports:
-      - "8501:8501"
-    environment:
-      - MLFLOW_API_URL=http://mlflow:8000
-    depends_on:
-      - mlflow
     networks:
       - pred-network
 

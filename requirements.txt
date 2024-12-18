@@ -8,3 +8,5 @@ seaborn
 statsmodels
 zenml[server]
 ipykernel
+streamlit
+requests

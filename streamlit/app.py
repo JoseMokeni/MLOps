@@ -156,4 +156,4 @@ historiques de ventes immobilières.
 - Les prédictions sont données à titre indicatif
 - Le modèle prend en compte de nombreuses caractéristiques de la propriété
 - Les résultats peuvent varier en fonction du marché actuel
-""")
+""") 

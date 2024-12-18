@@ -6,6 +6,7 @@ from steps.model_building_step import model_building_step
 from steps.model_evaluator_step import model_evaluator_step
 from steps.outlier_detection_step import outlier_detection_step
 from zenml import Model, pipeline, step
+import os
 
 
 @pipeline(
@@ -18,9 +19,13 @@ def ml_pipeline():
     """Define an end-to-end machine learning pipeline."""
 
     # Data Ingestion Step
-    raw_data = data_ingestion_step(
-        file_path="/home/josemokeni/DEV/prices-predictor-system/data/archive.zip"
-    )
+    # Get the current working directory
+    cwd = os.getcwd()
+
+    # Construct the file path dynamically
+    file_path = os.path.join(cwd, "data", "archive.zip")
+
+    raw_data = data_ingestion_step(file_path=file_path)
 
     # Handling Missing Values Step
     filled_data = handle_missing_values_step(raw_data)

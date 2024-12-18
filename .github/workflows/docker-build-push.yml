@@ -20,6 +20,7 @@ jobs:
         name: Build & push Docker image
         with:
           image: josemokeni/price-predictor
+          addLatest: true
           registry: docker.io
           dockerfile: Dockerfile
           username: ${{ secrets.DOCKER_USERNAME }}

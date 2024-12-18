@@ -6,6 +6,7 @@ pandas
 scikit_learn
 seaborn
 statsmodels
-zenml
+zenml[server]
 ipykernel
 streamlit
+requests

@@ -1,0 +1,16 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+      - "80:8501"
+    volumes:
+      - ./mlruns:/app/mlruns
+    networks:
+      - pred-network
+
+networks:
+  pred-network:
+    driver: bridge

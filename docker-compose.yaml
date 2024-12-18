@@ -9,6 +9,7 @@ services:
       - ./mlruns:/app/mlruns
     networks:
       - pred-network
+    tty: true
 
   streamlit:
     build:

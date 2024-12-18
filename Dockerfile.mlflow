@@ -2,11 +2,6 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
-# Installation des dépendances système nécessaires
-# RUN apt-get update && apt-get install -y \
-#     build-essential \
-#     && rm -rf /var/lib/apt/lists/*
-
 # Copier les fichiers nécessaires
 COPY requirements.txt .
 COPY pipelines/ pipelines/
@@ -23,8 +18,6 @@ RUN chmod +x init-mlflow.sh
 # Installation des dépendances Python
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Exposer les ports MLflow
-EXPOSE 8000 5000
 
 # Initialize MLflow first
 RUN ./init-mlflow.sh
@@ -32,12 +25,15 @@ RUN ./init-mlflow.sh
 # Create startup script
 COPY <<EOF /app/start.sh
 #!/bin/bash
-python run_deployment.py
 # Keep container running
+python run_deployment.py
 tail -f /dev/null
 EOF
 
 RUN chmod +x /app/start.sh
+
+# Exposer les ports MLflow
+EXPOSE 8000
 
 # Use the startup script instead
 CMD ["/app/start.sh"]

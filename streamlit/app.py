@@ -91,7 +91,7 @@ if st.button("Prédire le prix"):
             "1st Flr SF": first_flr_sf,
             "2nd Flr SF": second_flr_sf,
             "Low Qual Fin SF": 0,
-            "Gr Liv Area": gr_liv_area,
+            "Gr Liv Area": np.log1p(gr_liv_area),  # Apply same transformation as training
             "Bsmt Full Bath": bsmt_full_bath,
             "Bsmt Half Bath": bsmt_half_bath,
             "Full Bath": full_bath,
@@ -129,8 +129,9 @@ if st.button("Prédire le prix"):
             prediction = response.json()
             logging.info(f"Réponse brute : {prediction}")
             
-            predicted_value = prediction['predictions'][0]
-            predicted_price = "${:,.2f}".format(float(predicted_value) * 1000)
+            # Apply inverse log transformation using expm1
+            predicted_value = np.expm1(prediction['predictions'][0])
+            predicted_price = "${:,.2f}".format(predicted_value)
             
             st.success(f"Prix estimé : {predicted_price}")
         else:

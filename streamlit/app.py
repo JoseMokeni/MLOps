@@ -1,11 +1,15 @@
 import json
 import logging
+import os
 import requests
 import streamlit as st
 import numpy as np
 
 # Configuration du logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+# Récupération de l'URL de l'API MLflow depuis les variables d'environnement
+MLFLOW_API_URL = os.getenv('MLFLOW_API_URL', 'http://localhost:8000')
 
 # Configuration de la page
 st.set_page_config(
@@ -112,7 +116,7 @@ if st.button("Prédire le prix"):
     
     try:
         logging.info("Tentative de connexion à l'API MLflow...")
-        url = "http://127.0.0.1:8000/invocations"
+        url = f"{MLFLOW_API_URL}/invocations"
         headers = {"Content-Type": "application/json"}
         
         logging.info(f"Données envoyées : {json.dumps(input_data, indent=2)}")

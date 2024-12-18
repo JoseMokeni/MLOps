@@ -1,0 +1,28 @@
+services:
+  mlflow:
+    build:
+      context: .
+      dockerfile: Dockerfile.mlflow
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./mlruns:/app/mlruns
+    networks:
+      - pred-network
+
+  streamlit:
+    build:
+      context: .
+      dockerfile: Dockerfile.streamlit
+    ports:
+      - "8501:8501"
+    environment:
+      - MLFLOW_API_URL=http://mlflow:8000
+    depends_on:
+      - mlflow
+    networks:
+      - pred-network
+
+networks:
+  pred-network:
+    driver: bridge

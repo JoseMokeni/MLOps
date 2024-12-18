@@ -10,6 +10,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 
 # Récupération de l'URL de l'API MLflow depuis les variables d'environnement
 MLFLOW_API_URL = os.getenv('MLFLOW_API_URL', 'http://localhost:8000')
+logging.info(f"MLFLOW_API_URL: {MLFLOW_API_URL}")
 
 # Configuration de la page
 st.set_page_config(
